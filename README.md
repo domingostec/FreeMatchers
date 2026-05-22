@@ -55,8 +55,7 @@ Aqui está o mapa de desenvolvimento das funcionalidades do sistema:
 <details>
 <summary><b>🛢️ Banco de Dados & Infraestrutura (Clique para expandir)</b></summary>
 
-* **Banco de Dados:** [Ex: PostgreSQL / MySQL / H2]
-* **Migrações:** [Ex: Flyway / Liquibase / Nenhuma]
+* **Banco de Dados:** [H2(Rodando em memoria por enquanto), PostgreSQL]
 </details>
 
 ---
