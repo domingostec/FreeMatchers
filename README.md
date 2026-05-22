@@ -1,7 +1,5 @@
 # 🎯 FreeMatchers
 
-> [Insira uma frase curta e marcante aqui. Ex: Uma plataforma inteligente de combinação e gerenciamento de contratações de freelancers.]
-
 <p align="center">
   <img src="https://shields.io" alt="Java Version" />
   <img src="https://shields.io" alt="Spring Boot Version" />
