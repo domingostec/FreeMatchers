@@ -33,11 +33,10 @@ Para solucionar esse problema, o sistema utiliza um **algoritmo inteligente que 
 Aqui está o mapa de desenvolvimento das funcionalidades do sistema:
 
 - [x] Estruturação inicial do projeto e configuração do Git.
-- [x] Lógica de Serviço completa
-- [ ] Cadastro e autenticação de usuários (JWT).
-- [ ] Sistema de filtros inteligentes (Match de habilidades).
-- [ ] Testes Unitarios com JUnit & Mockito
+- [x] Sistema de filtros inteligentes (Match de habilidades).
+- [ ] Cadastro e autenticação de usuários (JWT)
 - [ ] Painel de gerenciamento de propostas.
+- [ ] Alocação projeto + dev via recrutador
 
 ---
 
