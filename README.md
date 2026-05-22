@@ -22,14 +22,18 @@
 ---
 
 ## 💡 Sobre o Projeto
-O **FreeMatchers** nasceu com o objetivo de solucionar o problema de [explique brevemente a dor que seu projeto resolve. Ex: conectar profissionais freelancers a projetos de forma automatizada baseando-se em suas habilidades técnicas].
+O **FreeMatchers** nasceu com o objetivo de otimizar a conexão entre profissionais e recrutadores, eliminando ruídos em processos seletivos para vagas de emprego, projetos pessoais e freelas. Como estudante e entusiasta do setor, acredito que o mercado exige um foco muito maior na qualidade das relações e interações iniciais entre quem contrata e quem busca uma oportunidade.
 
+Para solucionar esse problema, o sistema utiliza um **algoritmo inteligente que analisa as habilidades técnicas do profissional e as confronta com os requisitos exigidos pelo recrutador**. A partir desse cruzamento, a plataforma gera um ranking automatizado baseado na **porcentagem (%) exata de compatibilidade (match)**. 
+
+> 🚀 *Foco Inicial:* No momento, a plataforma atende exclusivamente a área de Tecnologia da Informação e afins, mas a arquitetura do projeto está sendo desenhada para escalar e suportar qualquer profissão de qualquer setor no futuro.
 ---
 
 ## 🚀 Funcionalidades
 Aqui está o mapa de desenvolvimento das funcionalidades do sistema:
 
 - [x] Estruturação inicial do projeto e configuração do Git.
+- [x] Lógica de Serviço completa
 - [ ] Cadastro e autenticação de usuários (JWT).
 - [ ] Sistema de filtros inteligentes (Match de habilidades).
 - [ ] Painel de gerenciamento de propostas.
@@ -64,7 +68,7 @@ Aqui está o mapa de desenvolvimento das funcionalidades do sistema:
 | :--- | :--- | :--- | :--- |
 | `GET` | `/api/v1/matchers` | Lista todos os matches disponíveis | 🔓 Pública |
 | `POST` | `/api/v1/users/register` | Cria uma nova conta no sistema | 🔓 Pública |
-| `POST` | `/api/v1/jobs` | Publica uma nova vaga de freela | 🔒 Requer Token |
+| `POST` | `/api/v1/jobs` | Publica uma nova vaga de freela | 🔓 Publica por enquanto |
 
 ---
 
