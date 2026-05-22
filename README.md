@@ -1,12 +1,6 @@
 # 🎯 FreeMatchers
 
-<p align="center">
-  <img src="https://shields.io" alt="Java Version" />
-  <img src="https://shields.io" alt="Spring Boot Version" />
-  <img src="https://shields.io" alt="Maven" />
-  <img src="https://shields.io" alt="Status" />
-</p>
-
+![Java Version](https://shields.io) ![Spring Boot Version](https://shields.io) ![Maven](https://shields.io) ![Status](https://shields.io)
 ---
 
 ## 📌 Índice
