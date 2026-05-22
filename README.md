@@ -1,6 +1,14 @@
 # 🎯 FreeMatchers
 
-![Java Version](https://shields.io) ![Spring Boot Version](https://shields.io) ![Maven](https://shields.io) ![Status](https://shields.io)
+> Um ecossistema inteligente para conexão assertiva entre profissionais e recrutadores através de algoritmos de compatibilidade técnica.
+
+
+| ☕ Linguagem | 🍃 Framework | 📦 Build | 🛠️ Status |
+| :---: | :---: | :---: | :---: |
+| **Java 17+** | **Spring Boot 3.x** | **Maven** | **Em Desenvolvimento** |
+
+---
+
 ---
 
 ## 📌 Índice
