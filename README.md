@@ -65,9 +65,9 @@ Aqui está o mapa de desenvolvimento das funcionalidades do sistema:
 
 | Método | Endpoint | Descrição | Autenticação |
 | :--- | :--- | :--- | :--- |
-| `GET` | `/api/v1/matchers` | Lista todos os matches disponíveis | 🔓 Pública |
-| `POST` | `/api/v1/users/register` | Cria uma nova conta no sistema | 🔓 Pública |
-| `POST` | `/api/v1/jobs` | Publica uma nova vaga de freela | 🔓 Publica por enquanto |
+| `GET` | `/api/allocations/project/1/matches` | Lista todos os matches disponíveis | 🔓 Pública |
+| `POST` | `/api/recruiters` | Cria uma nova conta no sistema | 🔓 Pública |
+| `POST` | `/api/projects` | Publica uma nova vaga de freela | 🔓 Publica por enquanto |
 
 ---
 
