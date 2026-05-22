@@ -109,5 +109,5 @@ Contribuições deixam a comunidade open source um lugar incrível para aprender
 
 <p align="center">
   Desenvolvido por <b>Domingos Tec</b> ✨<br>
-  Me encontre no <a href="https://linkedin.com[matheusdomingostec]">LinkedIn</a>
+  Me encontre no <a href="https://linkedin.com/in/matheusdomingostec/">LinkedIn</a>
 </p>
