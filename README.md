@@ -34,6 +34,7 @@ Aqui está o mapa de desenvolvimento das funcionalidades do sistema:
 
 - [x] Estruturação inicial do projeto e configuração do Git.
 - [x] Lógica de Serviço completa
+- [ ] Testes Unitarios com JUnit & Mockito
 - [ ] Cadastro e autenticação de usuários (JWT).
 - [ ] Sistema de filtros inteligentes (Match de habilidades).
 - [ ] Painel de gerenciamento de propostas.
