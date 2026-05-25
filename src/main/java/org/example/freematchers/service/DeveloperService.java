@@ -5,12 +5,10 @@ import org.example.freematchers.dto.request.DeveloperRequest;
 import org.example.freematchers.dto.response.DeveloperResponse;
 import org.example.freematchers.exceptions.EmailAlreadyExistsException;
 import org.example.freematchers.exceptions.IdNotFoundException;
-import org.example.freematchers.model.Developer;
+import org.example.freematchers.mapper.DeveloperMapper;
 import org.example.freematchers.repository.DeveloperRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,45 +16,31 @@ public class DeveloperService {
 
     private final DeveloperRepository developerRepository;
     private final PasswordEncoder passwordEncoder;
-
-    private DeveloperResponse toResponse(Developer developer){
-        return new DeveloperResponse(
-                developer.getName(),
-                developer.getEmail(),
-                developer.getWorkload(),
-                developer.getSkills()
-        );
-    }
+    private final DeveloperMapper developerMapper;
 
     public DeveloperResponse registeringANewDeveloper(DeveloperRequest request){
 
         existsByEmail(request.email());
 
-        String encryptedPassword = passwordEncoder.encode(request.password());
+        var developer = developerMapper.developerRequestToDeveloper(request);
 
-        Developer developer = new Developer(
-                request.name(),
-                request.email(),
-                encryptedPassword,
-                request.workload(),
-                request.skills()
-        );
+        String encryptedPassword = passwordEncoder.encode(request.password());
+        developer.setPassword(encryptedPassword);
 
         developerRepository.save(developer);
-        return toResponse(developer);
-
+        return developerMapper.developerToDeveloperResponse(developer);
     }
 
     public DeveloperResponse getDevById(Long id){
-        Developer developer = developerRepository.findById(id)
+        var developer = developerRepository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException("ID not found"));
 
-        return toResponse(developer);
+        return developerMapper.developerToDeveloperResponse(developer);
     }
 
     public DeveloperResponse updateDeveloper(DeveloperRequest request, Long id) {
 
-        Developer developer = developerRepository.findById(id)
+        var developer = developerRepository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException("ID not Found"));
 
         if (request.email() != null && !request.email().equals(developer.getEmail())) {
@@ -64,24 +48,21 @@ public class DeveloperService {
             developer.setEmail(request.email());
         }
 
-       developer.updateFromDTO(request);
+      developerMapper.updateDeveloperFromRequest(request, developer);
 
-        return  toResponse(developerRepository.save(developer));
+       var saveDeveloper = developerRepository.save(developer);
+       return  developerMapper.developerToDeveloperResponse(saveDeveloper);
     }
 
     public DeveloperResponse updateSkillsDeveloper(DeveloperRequest request, Long id){
-        Developer developer = developerRepository.findById(id)
+        var developer = developerRepository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException("ID not Found"));
 
-      List<String> nowSkills = developer.getSkills();
+      developerMapper.updateSkillsFromRequest(request, developer);
 
-      if(request.skills() != null){
-          nowSkills.addAll(request.skills());
-      }
+      var saveDeveloper = developerRepository.save(developer);
 
-      developer.setSkills(nowSkills);
-
-        return toResponse(developerRepository.save(developer));
+      return developerMapper.developerToDeveloperResponse(saveDeveloper);
     }
 
     private void existsByEmail(String email){

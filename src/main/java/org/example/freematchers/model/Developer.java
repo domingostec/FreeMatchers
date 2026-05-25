@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.freematchers.dto.request.DeveloperRequest;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class Developer {
 
     private String name;
     private String email;
-    private String senha;
+    private String password;
     private Integer workload;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -31,18 +30,11 @@ public class Developer {
     @Column(name = "skills")
     private List<String> skills;
 
-    public Developer(String name, String email, String senha, Integer workload, List<String> skills) {
+    public Developer(String name, String email, String password, Integer workload, List<String> skills) {
         this.name = name;
         this.email = email;
-        this.senha = senha;
+        this.password = password;
         this.workload = workload;
         this.skills = skills;
     }
-
-    public void updateFromDTO(DeveloperRequest dto) {
-        this.name = dto.name() != null ? dto.name() : this.name;
-        this.email = dto.email() != null ? dto.email() : this.email;
-        this.workload = dto.workload() != null ? dto.workload() : this.workload;
-    }
-
 }

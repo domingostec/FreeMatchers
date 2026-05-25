@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.freematchers.dto.request.ProjectRequest;
 
 import java.util.List;
 
@@ -35,12 +34,4 @@ public class Projects {
 
     @ManyToOne
     private Recruiter recruiter;
-
-
-    public void updateFromDTO(ProjectRequest dto) {
-        this.title = dto.title() != null ? dto.title() : this.title;
-        this.description = dto.description() != null ? dto.description() : this.description;
-        this.requiredHours = dto.requiredHours() != null ? dto.requiredHours() : this.requiredHours;
-    }
-
 }

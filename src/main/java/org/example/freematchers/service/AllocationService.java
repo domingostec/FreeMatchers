@@ -7,6 +7,7 @@ import org.example.freematchers.dto.response.MatchResultResponse;
 import org.example.freematchers.exceptions.IdNotFoundException;
 import org.example.freematchers.exceptions.LackRequiredHoursException;
 import org.example.freematchers.exceptions.ProjectInactiveException;
+import org.example.freematchers.mapper.MatchMapper;
 import org.example.freematchers.model.Allocation;
 import org.example.freematchers.model.Developer;
 import org.example.freematchers.model.Projects;
@@ -29,6 +30,7 @@ public class AllocationService {
     private final AllocationRepository allocationRepository;
     private  final ProjectRepository projectRepository;
     private final DeveloperRepository developerRepository;
+    private  final MatchMapper matchMapper;
 
     private AllocationResponse toResponse(Allocation allocation){
         return new AllocationResponse(
@@ -66,21 +68,11 @@ public class AllocationService {
         );
 
         return candidates.stream()
-                .map(candidate -> {
-                    Developer dev = developerRepository.findById(candidate.getId()).orElseThrow();
+                .map(cadidate -> {
+                    Developer dev = developerRepository.findById(cadidate.getId())
+                            .orElseThrow(() -> new IdNotFoundException("Developer not Found"));
 
-                    List<String> matchingSkills = project.getProjectSkills().stream()
-                            .filter(skill -> dev.getSkills().stream()
-                                    .anyMatch(devSkill -> devSkill.equalsIgnoreCase(skill)))
-                            .toList();
-
-                    return new MatchResultResponse(
-                            candidate.getId(),
-                            candidate.getName(),
-                            candidate.getMatchPercentage(),
-                            candidate.getFreeHours(),
-                            matchingSkills
-                    );
+                    return matchMapper.toMatchResponse(dev,cadidate.getMatchPercentage(), project.getProjectSkills());
                 })
                 .toList();
     }

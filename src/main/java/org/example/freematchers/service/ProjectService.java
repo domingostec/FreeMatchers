@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.freematchers.dto.request.ProjectRequest;
 import org.example.freematchers.dto.response.ProjectResponse;
 import org.example.freematchers.exceptions.IdNotFoundException;
+import org.example.freematchers.mapper.ProjectMapper;
 import org.example.freematchers.model.Projects;
 import org.example.freematchers.model.Recruiter;
 import org.example.freematchers.repository.ProjectRepository;
@@ -17,35 +18,18 @@ import java.util.List;
 public class ProjectService {
 
     private final RecruiterRepository recruiterRepository;
-
     private final ProjectRepository projectRepository;
-
-    private ProjectResponse toResponse(Projects projects) {
-        return new ProjectResponse(
-                projects.getId(),
-                projects.getTitle(),
-                projects.getDescription(),
-                projects.getRequiredHours(),
-                projects.getProjectSkills(),
-                projects.getStatus(),
-                projects.getRecruiter().getId(),
-                projects.getRecruiter().getName()
-        );
-    }
-
+    private final ProjectMapper projectMapper;
 
     public ProjectResponse createProject(ProjectRequest request){
-        Recruiter recruiter = exitsRecruiterId(request);
 
-        Projects project = new Projects();
-        project.setTitle(request.title());
-        project.setDescription(request.description());
-        project.setRequiredHours(request.requiredHours());
-        project.setProjectSkills(request.projectSkills());
+        var recruiter = exitsRecruiterId(request);
+        var project = projectMapper.projectRequestToProject(request);
 
         project.setRecruiter(recruiter);
 
-        return toResponse(projectRepository.save(project));
+        projectRepository.save(project);
+        return projectMapper.projectToProjectResponse(project);
     }
 
     public List<ProjectResponse> getProjectByRecruiterId(Long recruiterId){
@@ -54,30 +38,23 @@ public class ProjectService {
 
         List<Projects> projectsList = projectRepository.findByRecruiterId(recruiterId);
 
-        return projectsList.stream()
-                .map(this::toResponse)
-                .toList();
+        return projectMapper.toResponseList(projectsList);
     }
 
     public ProjectResponse getProjectById(Long projectId){
         Projects project = exitsProjectId(projectId);
-        return toResponse(project);
+
+        return projectMapper.projectToProjectResponse(project);
     }
 
     public ProjectResponse updateProjectById(ProjectRequest request, Long projectId){
         Projects project = exitsProjectId(projectId);
 
-        project.updateFromDTO(request);
+        projectMapper.updateProjectFromRequest(request, project);
 
-        List<String> nowSkills = project.getProjectSkills();
+        projectRepository.save(project);
 
-        if(request.projectSkills() != null){
-            nowSkills.addAll(request.projectSkills());
-        }
-
-        project.setProjectSkills(nowSkills);
-
-        return toResponse(projectRepository.save(project));
+        return projectMapper.projectToProjectResponse(project);
     }
 
     public void deleteProjectById(Long id){

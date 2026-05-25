@@ -5,6 +5,7 @@ import org.example.freematchers.dto.request.RecruiterRequest;
 import org.example.freematchers.dto.response.RecruiterResponse;
 import org.example.freematchers.exceptions.EmailAlreadyExistsException;
 import org.example.freematchers.exceptions.IdNotFoundException;
+import org.example.freematchers.mapper.RecruiterMapper;
 import org.example.freematchers.model.Recruiter;
 import org.example.freematchers.repository.RecruiterRepository;
 import org.springframework.stereotype.Service;
@@ -14,35 +15,23 @@ import org.springframework.stereotype.Service;
 public class RecruiterService {
 
     private final RecruiterRepository repository;
-
-
-    private RecruiterResponse toResponse(Recruiter recruiter) {
-        return new RecruiterResponse(
-                recruiter.getName(),
-                recruiter.getEmail(),
-                recruiter.getEnterprise()
-        );
-    }
+    private final RecruiterMapper recruiterMapper;
 
     public RecruiterResponse registeringRecruiter(RecruiterRequest request){
         existsByEmail(request.email());
 
-        Recruiter recruiter = new Recruiter(
-          request.name(),
-          request.email(),
-          request.password(),
-          request.enterprise()
-        );
+        var recruiter  = recruiterMapper.recruiterResquestToRecruiter(request);
+
         repository.save(recruiter);
 
-        return toResponse(recruiter);
+        return recruiterMapper.recruiterToRecruiterResponse(recruiter);
     }
 
     public RecruiterResponse getRecruiterById(Long id){
         Recruiter recruiter = repository.findById(id)
                 .orElseThrow(() -> new IdNotFoundException("ID not found"));
 
-        return  toResponse(recruiter);
+        return  recruiterMapper.recruiterToRecruiterResponse(recruiter);
     }
 
    private void existsByEmail(String email){
