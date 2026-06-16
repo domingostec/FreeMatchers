@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -120,8 +121,7 @@ public class AllocationService {
     }
 
     private Integer calculateFreehours(Developer developer) {
-        int totalWorkload = developer.getWorkload() != null ? developer.getWorkload() : 40;
-
+        int totalWorkload = Optional.ofNullable(developer.getWorkload()).orElse(40);
         Integer busyHours = allocationRepository.sumOccupiedHoursByDeveloperId(developer.getId());
 
         return totalWorkload - busyHours;

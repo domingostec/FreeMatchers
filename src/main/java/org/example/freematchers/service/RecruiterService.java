@@ -8,6 +8,7 @@ import org.example.freematchers.exceptions.IdNotFoundException;
 import org.example.freematchers.mapper.RecruiterMapper;
 import org.example.freematchers.model.Recruiter;
 import org.example.freematchers.repository.RecruiterRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,11 +17,13 @@ public class RecruiterService {
 
     private final RecruiterRepository repository;
     private final RecruiterMapper recruiterMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public RecruiterResponse registeringRecruiter(RecruiterRequest request){
         existsByEmail(request.email());
 
         var recruiter  = recruiterMapper.recruiterResquestToRecruiter(request);
+        recruiter.setPassword(passwordEncoder.encode(request.password()));
 
         repository.save(recruiter);
 

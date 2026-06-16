@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.freematchers.dto.request.DeveloperRequest;
 import org.example.freematchers.dto.response.DeveloperResponse;
 import org.example.freematchers.service.DeveloperService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,8 @@ public class DeveloperController {
     @PostMapping
     public ResponseEntity<DeveloperResponse> developerRegistration(@Valid @RequestBody DeveloperRequest request){
 
-        return ResponseEntity.ok(service.registeringANewDeveloper(request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(service.registeringANewDeveloper(request));
     }
 
     @GetMapping("/{id}")

@@ -14,7 +14,6 @@ import org.mapstruct.factory.Mappers;
 )
 public interface DeveloperMapper {
 
-    DeveloperMapper INSTANCE = Mappers.getMapper(DeveloperMapper.class);
     DeveloperResponse developerToDeveloperResponse(Developer developer);
     Developer developerRequestToDeveloper(DeveloperRequest developerRequest);
     void updateDeveloperFromRequest(DeveloperRequest request, @MappingTarget Developer developer);

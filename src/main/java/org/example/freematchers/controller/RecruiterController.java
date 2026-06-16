@@ -17,7 +17,7 @@ public class RecruiterController {
 
     @PostMapping
     public ResponseEntity<RecruiterResponse> registerRecruiter(@Valid @RequestBody RecruiterRequest request){
-        return ResponseEntity.ok(service.registeringRecruiter(request));
+        return ResponseEntity.status(201).body(service.registeringRecruiter(request));
     }
 
     @GetMapping("/{id}")

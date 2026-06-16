@@ -23,7 +23,7 @@ public class Projects {
 
     private String description;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "project_skills", joinColumns = @JoinColumn(name = "project_id"))
     @Column(name = "skill")
     private List<String> projectSkills;

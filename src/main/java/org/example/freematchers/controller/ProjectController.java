@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.freematchers.dto.request.ProjectRequest;
 import org.example.freematchers.dto.response.ProjectResponse;
 import org.example.freematchers.service.ProjectService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -18,7 +19,8 @@ public class ProjectController {
 
     @PostMapping
     public ResponseEntity<ProjectResponse> creatingProject(@Valid @RequestBody ProjectRequest request){
-        return ResponseEntity.ok(projectService.createProject(request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(projectService.createProject(request));
     }
 
     @GetMapping("/recruiter/{recruiterId}")
@@ -27,7 +29,7 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProjectResponse> updateProject(@Valid @RequestBody ProjectRequest request, Long id){
+    public ResponseEntity<ProjectResponse> updateProject(@Valid @RequestBody ProjectRequest request, @PathVariable Long id){
         return ResponseEntity.ok(projectService.updateProjectById(request, id));
     }
 

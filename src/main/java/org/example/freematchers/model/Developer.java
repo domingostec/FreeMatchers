@@ -25,7 +25,7 @@ public class Developer {
     private String password;
     private Integer workload;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "developer_skills", joinColumns = @JoinColumn(name = "developer_id"))
     @Column(name = "skills")
     private List<String> skills;
