@@ -1,12 +1,12 @@
 package org.example.freematchers;
 
-import org.example.freematchers.dto.request.DeveloperRequest;
-import org.example.freematchers.dto.response.DeveloperResponse;
-import org.example.freematchers.exceptions.IdNotFoundException;
-import org.example.freematchers.mapper.DeveloperMapper;
-import org.example.freematchers.model.Developer;
-import org.example.freematchers.repository.DeveloperRepository;
-import org.example.freematchers.service.DeveloperService;
+import org.example.freematchers.shared.dto.request.DeveloperRequest;
+import org.example.freematchers.shared.dto.response.DeveloperResponse;
+import org.example.freematchers.shared.exceptions.IdNotFoundException;
+import org.example.freematchers.application.mapper.DeveloperMapper;
+import org.example.freematchers.domain.model.Developer;
+import org.example.freematchers.infrastructure.adapter.out.persistence.adapter.jpa.DeveloperJpaRepository;
+import org.example.freematchers.domain.service.DeveloperService;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +28,7 @@ public class DeveloperServiceTest {
     private DeveloperService developerService;
 
     @Mock
-    private DeveloperRepository developerRepository;
+    private DeveloperJpaRepository developerJpaRepository;
 
     @Mock
     private DeveloperMapper developerMapper;
@@ -61,7 +61,7 @@ public class DeveloperServiceTest {
             developerService.registeringANewDeveloper(request);
 
             ArgumentCaptor<Developer> developerCaptor = ArgumentCaptor.forClass(Developer.class);
-            verify(developerRepository).save(developerCaptor.capture());
+            verify(developerJpaRepository).save(developerCaptor.capture());
 
             Developer developerCaptured = developerCaptor.getValue();
             assertEquals("encryptedPassword", developerCaptured.getPassword());
@@ -90,7 +90,7 @@ public class DeveloperServiceTest {
                     developer.getSkills()
             );
 
-            when(developerRepository.findById(1L)).thenReturn(Optional.of(developer));
+            when(developerJpaRepository.findById(1L)).thenReturn(Optional.of(developer));
             when(developerMapper.developerToDeveloperResponse(developer)).thenReturn(expectedResponse);
 
             Long id = 1L;
@@ -99,7 +99,7 @@ public class DeveloperServiceTest {
 
             assertEquals(expectedResponse, response);
 
-            verify(developerRepository).findById(id);
+            verify(developerJpaRepository).findById(id);
 
         }
 
@@ -108,11 +108,11 @@ public class DeveloperServiceTest {
 
             Long id = 99L;
 
-            when(developerRepository.findById(id)).thenReturn(Optional.empty());
+            when(developerJpaRepository.findById(id)).thenReturn(Optional.empty());
 
             assertThrows(IdNotFoundException.class, () -> developerService.getDevById(id));
 
-            verify(developerRepository).findById(id);
+            verify(developerJpaRepository).findById(id);
 
         }
 
