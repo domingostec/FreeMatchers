@@ -3,18 +3,17 @@ package org.example.freematchers.application.mapper;
 import org.example.freematchers.shared.dto.request.DeveloperRequest;
 import org.example.freematchers.shared.dto.response.DeveloperResponse;
 import org.example.freematchers.domain.model.Developer;
-import org.mapstruct.CollectionMappingStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED
-)
+@Mapper(componentModel = "spring")
 public interface DeveloperMapper {
-
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "workload", source = "workload")
+    @Mapping(target = "skills", source = "skills")
     DeveloperResponse developerToDeveloperResponse(Developer developer);
+
     Developer developerRequestToDeveloper(DeveloperRequest developerRequest);
-    void updateDeveloperFromRequest(DeveloperRequest request, @MappingTarget Developer developer);
-    void updateSkillsFromRequest(DeveloperRequest request, @MappingTarget Developer developer);
 }
+
+

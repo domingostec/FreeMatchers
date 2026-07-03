@@ -2,7 +2,8 @@ package org.example.freematchers.infrastructure.adapter.in.web;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.freematchers.domain.service.ProjectService;
+import org.example.freematchers.application.mapper.ProjectMapper;
+import org.example.freematchers.domain.port.in.ProjectUseCase;
 import org.example.freematchers.shared.dto.request.ProjectRequest;
 import org.example.freematchers.shared.dto.response.ProjectResponse;
 import org.springframework.http.HttpStatus;
@@ -16,27 +17,49 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProjectController {
 
-    private  final ProjectService projectService;
+    private  final ProjectUseCase projectUseCase;
+    private final ProjectMapper projectMapper;
 
     @PostMapping
     public ResponseEntity<ProjectResponse> creatingProject(@Valid @RequestBody ProjectRequest request){
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(projectService.createProject(request));
+                .body(projectMapper.projectToProjectResponse(
+                        projectUseCase.createProject(
+                                projectMapper.projectRequestToProject(request))
+                ));
     }
 
     @GetMapping("/recruiter/{recruiterId}")
     public ResponseEntity<List<ProjectResponse>> getProjects(@PathVariable Long recruiterId){
-        return ResponseEntity.ok(projectService.getProjectByRecruiterId(recruiterId));
+        return ResponseEntity.ok(
+                projectMapper.projectToProjectResponse(
+                        projectUseCase.getProjectByRecruiterId(recruiterId)
+                )
+        );
+    }
+
+    @GetMapping("/Project/{id}")
+    public ResponseEntity<ProjectResponse> getProjectById(@PathVariable Long id){
+        return ResponseEntity.ok(
+                projectMapper.projectToProjectResponse(
+                        projectUseCase.getProjectById(id)
+                )
+        );
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProjectResponse> updateProject(@Valid @RequestBody ProjectRequest request, @PathVariable Long id){
-        return ResponseEntity.ok(projectService.updateProjectById(request, id));
+        return ResponseEntity.ok(
+                projectMapper.projectToProjectResponse(
+                        projectUseCase.updateProjectById(
+                                projectMapper.projectRequestToProject(request), id)
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable  Long id){
-        projectService.deleteProjectById(id);
+        projectUseCase.deleteProjectById(id);
         return ResponseEntity.noContent().build();
     }
 }

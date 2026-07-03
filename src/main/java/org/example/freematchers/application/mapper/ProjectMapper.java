@@ -3,10 +3,7 @@ package org.example.freematchers.application.mapper;
 import org.example.freematchers.shared.dto.request.ProjectRequest;
 import org.example.freematchers.shared.dto.response.ProjectResponse;
 import org.example.freematchers.domain.model.Projects;
-import org.mapstruct.CollectionMappingStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -15,8 +12,18 @@ import java.util.List;
         collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface ProjectMapper {
 
+    @Mapping(target = "recruiterId", source = "recruiter.id")
+    @Mapping(target = "recruiterName", source = "recruiter.name")
     ProjectResponse projectToProjectResponse(Projects projects);
+
     Projects projectRequestToProject(ProjectRequest request);
+
     List<ProjectResponse> toResponseList(List<Projects> projects);
+
     void updateProjectFromRequest(ProjectRequest request, @MappingTarget Projects project);
+
+    @Mapping(target = "recruiterId", source = "recruiter.id")
+    @Mapping(target = "recruiterName", source = "recruiter.name")
+    List<ProjectResponse> projectToProjectResponse(List<Projects> projects);
 }
+
